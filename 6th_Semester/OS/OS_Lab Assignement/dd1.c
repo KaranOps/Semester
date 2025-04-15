@@ -53,9 +53,10 @@ int mymkfs(char *filename)
     return 0;
 }
 
-// functiion to find the freeslot in file
+// function to find the freeslot in file
 int freeSlot(FILE *fs)
 {
+    
 }
 
 // function to copy linux file to dd1
@@ -66,6 +67,7 @@ int freeSlot(FILE *fs)
 
 int main()
 {
+
 
     return 0;
 }

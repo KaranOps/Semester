@@ -7,6 +7,11 @@
 #define input_size 1024
 #define max_args 100
 
+// Function declarations 
+void run_command(char *cmd);         
+void run_external(char **args);
+int run_internal(char **args);
+
 int main(int argc, char *argv[])
 {
     char line[input_size];
@@ -32,7 +37,7 @@ int main(int argc, char *argv[])
         if (fgets(line, sizeof(line), input) == NULL)
             break;
 
-        line[strcspn(line, "\n")] = '\0'; //"strcspn" length return krta hai upto which second argument is found
+        line[strcspn(line, "\n")] = '\0'; //  //"strcspn" length return krta hai upto which second argument is found(remove trailing newline)
 
         char *cmd = strtok(line, ";");
         while (cmd != NULL)
@@ -48,7 +53,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void run_command(char **cmd)
+void run_command(char *cmd)
 {
     char *args[max_args];
     int i = 0;
@@ -69,7 +74,6 @@ void run_command(char **cmd)
     {
         run_external(args);
     }
-    return 0;
 }
 
 void run_external(char **args)
@@ -83,10 +87,11 @@ void run_external(char **args)
     }
     else
     {
-        wait(NULL); // Parent waits
+        wait(NULL);  // Parent waits
     }
 }
 
 int run_internal(char **args)
 {
+    return 0;
 }

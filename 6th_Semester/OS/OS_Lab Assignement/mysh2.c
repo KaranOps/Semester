@@ -7,8 +7,8 @@
 #define input_size 1024
 #define max_args 100
 
-// Function declarations 
-void run_command(char *cmd);         
+// Function declarations
+void run_command(char *cmd);
 void run_external(char **args);
 int run_internal(char **args);
 
@@ -87,11 +87,35 @@ void run_external(char **args)
     }
     else
     {
-        wait(NULL);  // Parent waits
+        wait(NULL); // Parent waits
     }
 }
 
 int run_internal(char **args)
 {
+    if (strcmp(args[0], "cd") == 0)
+    {
+        if (args[1] != NULL)
+            chdir(args[1]);
+        else
+            printf("cd: missing argument\n");
+        return 1;
+    }
+    else if (strcmp(args[0], "pwd") == 0)
+    {
+        char path[1024];
+        getcwd(path, sizeof(path));
+        printf("%s\n", path);
+        return 1;
+    }
+    else if (strcmp(args[0], "clear") == 0)
+    {
+        printf("\033[H\033[J");
+        return 1;
+    }
+    else if (strcmp(args[0], "exit") == 0)
+    {
+        exit(0);
+    }
     return 0;
 }

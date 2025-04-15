@@ -14,6 +14,7 @@ int main() {
        
        	s[strcspn(s, "\n")] = '\0';	
         pid_t temp = fork();
+        
         if(temp < 0){
             printf("Fork not created\n");
             exit(1);

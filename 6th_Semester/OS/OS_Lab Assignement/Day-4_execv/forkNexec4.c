@@ -10,6 +10,7 @@ int main() {
         int status;
         char str[200];
         char *args[11];  
+        
         printf("Enter a command: ");
         fgets(str, sizeof(str), stdin);
 

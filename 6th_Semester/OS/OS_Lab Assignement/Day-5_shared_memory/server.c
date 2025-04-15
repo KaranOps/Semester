@@ -33,11 +33,9 @@ int main(){
 		while(solve->status != 3){
 			if(solve->status == 3){
 				solve->status = 4;
-				printf("Length of the array: ",sove->data);
+				printf("Length of the array: ",solve->data);
 				printf("Process id of the worker %d.\n",solve->worder_pid);
 			}
 		}
-		
-
 	}
 }

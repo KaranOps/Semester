@@ -74,9 +74,9 @@ int get_freeblock(char *filename)
         close(fd);
         return -1;
     }
+    
     if (blockzero.fbn == 0)
     {
-
         fprintf(stderr, "No free blocks available\n");
         close(fd);
         return -1;

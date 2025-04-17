@@ -44,7 +44,9 @@ int mymkfs(char *filename)
             fclose(fs);
             return -1;
         }
-    } // free karege block ko
+    } 
+    
+    // free karege block ko
     free(block);
     // close karege file ko
     fclose(fs);

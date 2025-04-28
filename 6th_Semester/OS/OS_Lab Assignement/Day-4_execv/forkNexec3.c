@@ -27,6 +27,7 @@ int main() {
         } else {
             wait(&status);
             if(WIFEXITED(status)){
+                
                 int a = WEXITSTATUS(status);
                 if(a == 0){
                     printf("Executed properly\n");

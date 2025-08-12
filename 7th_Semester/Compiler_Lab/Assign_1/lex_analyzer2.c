@@ -9,7 +9,7 @@ char yytext[MAX_TOKEN_LEN];
 int yyleng;
 int yylineno = 1;
 
-FILE *fp;
+FILE *yyin;
 
 enum TokenType {
     T_KEYWORD,
@@ -21,7 +21,7 @@ enum TokenType {
     T_EOF
 };
 
-// List of C keywords
+// List of C keywords (Reserverd words)
 const char *keywords[] = {
     "int", "float", "char", "if", "else", "while", "for", "return", "void"
 };
@@ -33,8 +33,8 @@ int yylex();
 void printToken(int token);
 
 int main() {
-    fp = fopen("input.c", "r");
-    if (!fp) {
+    yyin = fopen("input.c", "r");
+    if (!yyin) {
         printf("Error: Cannot open input file.\n");
         return 1;
     }
@@ -44,7 +44,7 @@ int main() {
         printToken(token);
     }
 
-    fclose(fp);
+    fclose(yyin);
     return 0;
 }
 
@@ -60,7 +60,7 @@ int isKeyword(const char *str) {
 // Main lexer function: reads next token
 int yylex() {
     int ch;
-    while ((ch = fgetc(fp)) != EOF) {
+    while ((ch = fgetc(yyin)) != EOF) {
         // Skip whitespace
         if (isspace(ch)) {
             if (ch == '\n') yylineno++;
@@ -71,12 +71,12 @@ int yylex() {
         if (isalpha(ch) || ch == '_') {
             int i = 0;
             yytext[i++] = ch;
-            while (isalnum(ch = fgetc(fp)) || ch == '_') {
+            while (isalnum(ch = fgetc(yyin)) || ch == '_') {
                 yytext[i++] = ch;
             }
             yytext[i] = '\0';
             yyleng = i;
-            ungetc(ch, fp);
+            ungetc(ch, yyin);
 
             if (isKeyword(yytext)) return T_KEYWORD;
             return T_IDENTIFIER;
@@ -86,12 +86,12 @@ int yylex() {
         if (isdigit(ch)) {
             int i = 0;
             yytext[i++] = ch;
-            while (isdigit(ch = fgetc(fp))) {
+            while (isdigit(ch = fgetc(yyin))) {
                 yytext[i++] = ch;
             }
             yytext[i] = '\0';
             yyleng = i;
-            ungetc(ch, fp);
+            ungetc(ch, yyin);
             return T_INT_CONST;
         }
 
@@ -99,7 +99,7 @@ int yylex() {
         if (strchr("=<>!&|+-*/%^", ch)) {
             int i = 0;
             yytext[i++] = ch;
-            int next = fgetc(fp);
+            int next = fgetc(yyin);
             if ((ch == '=' && next == '=') ||
                 (ch == '!' && next == '=') ||
                 (ch == '<' && next == '=') ||
@@ -110,7 +110,7 @@ int yylex() {
                 (ch == '-' && next == '-')) {
                 yytext[i++] = next;
             } else {
-                ungetc(next, fp);
+                ungetc(next, yyin);
             }
             yytext[i] = '\0';
             yyleng = i;
